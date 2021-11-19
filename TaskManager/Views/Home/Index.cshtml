@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    //we dont need a layout since we load just a portion of the "page"
+    if (ViewBag.Leaves != null) Layout = null;
+}
+
+@foreach (TaskManager.Models.Task task in ViewBag.Leaves != null ? ViewBag.Leaves : Program.Tasks)
+{
+    <div class="collapsible">
+        <span>@task.Name</span>
+        @if (!string.IsNullOrWhiteSpace(task.AssignedTo))
+        {
+            <span>Assigned to: @task.AssignedTo</span>
+        }
+        @if (task.Children.Count > 0)
+            {            
+                <span type="button" class="open-collapsible" data-toggle="open-collapsible" data-link="@task.UID" onclick="ShowOrHide('@task.UID')"></span>
+                <div class="content" data-toggle="collapsible" data-link="@task.UID"></div>
+            }
+    </div>
+}
